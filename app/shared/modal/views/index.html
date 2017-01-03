@@ -1,0 +1,278 @@
+<!-- 
+		BEGIN: Modals Layout. 
+		--
+		Our simple modal system makes the assumption that only one modal window can be
+		open at a time. I find this to be a very reasonable assumption for 99% of use-
+		cases. And, I'd rather keep it simple and work around the rare use-case in some 
+		other fashion (such as a multi-state modal).
+
+		To remove any "magic", I'm explicitly presenting the control properties rather 
+		than trying to hide them behind a compile() step. Notice that rendering a modal 
+		is JUST LIKE RENDERING ANY OTHER VIEW - we have a subview variable which we are
+		using to swap modals, or remove modals altogether.
+
+		The big take-away in the following code is that modal windows aren't a *special*
+		concept. They are views or components that work the same exact way that the rest 
+		of your application works! Sure, there are a few more rules, like only one open 
+		at a time; but, other than that, there's nothing here that's any different than 
+		any other view you will build. It has a Controller, it has a View, and it works 
+		with other services to execute its functionality.
+	-->
+<div bn-modals ng-show="subview" class="bn-modals" ng-switch="subview">
+    <!-- BEGIN: Alert Modal. -->
+    <div ng-switch-when="alert" ng-controller="AlertController" class="bn-modal">
+        <p>{{ message }}</p>
+        <p><a ng-click="close()">Ok, I got it!</a></p>
+        <!-- This is to demonstrate that we can jump from one modal to another. -->
+        <p><a ng-click="jumpToConfirm()" class="jump">Jump over to the confirm modal</a></p>
+    </div>
+    <!-- END: Alert Modal. -->
+
+
+    <!-- BEGIN: Confirm Modal. -->
+    <div ng-switch-when="confirm" ng-controller="ConfirmController" class="bn-modal">
+        <div class="modal-head">
+            <a href="javascript:;" ng-click="deny()" class="pull-right"><img src="assets/images/close_36.png"></a>
+            <a href="javascript:;" ng-click="confirm()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+            <img src="assets/images/alert_48.png"/>
+        </div>
+        <div class="modal-body">{{ message }}</div>
+    </div>
+    <!-- END: Confirm Modal. -->
+
+
+    <!-- BEGIN: Prompt Modal. -->
+    <form ng-switch-when="prompt" ng-controller="PromptController" ng-submit="submit()" class="bn-modal">
+        <p>{{ message }}</p>
+        <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}</p>
+        <p><input type="text" ng-model="form.input"/></p>
+        <p><a ng-click="submit()">Submit</a> &mdash; <a ng-click="cancel()">Cancel</a></p>
+    </form>
+    <!-- END: Prompt Modal. -->
+
+
+    <!-- BEGIN: Prompt save version Modal. -->
+    <div ng-switch-when="promptSave" ng-controller="PromptSaveController" class="bn-modal">
+        <form ng-submit="submit()">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+            </div>
+            <div class="modal-body">
+                <p ng-if="message">{{ message }} <br></p>
+
+                <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}<br></p>
+                <hr>
+                <div class="form-group">
+                    <label for="versionName">Version Name</label>
+                    <input type="text" class="form-control" id="versionName" placeholder="Name" ng-model="form.name">
+                </div>
+                <div class="form-group">
+                    <label for="versionNote">Note</label>
+                    <textarea class="form-control" id="versionNote" placeholder="Note" ng-model="form.note"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt save version Modal. -->
+
+
+    <!-- BEGIN: Prompt save project Modal. -->
+    <div ng-switch-when="promptSaveProject" ng-controller="PromptSaveProjectController" class="bn-modal">
+        <form ng-submit="submit()">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+                <span class="prompt-title">{{promptTitle}}</span>
+            </div>
+            <div class="modal-body">
+                <p ng-if="message">{{ message }} <br></p>
+
+                <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}<br><br></p>
+
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" class="form-control" id="projectName" placeholder="Name" ng-model="project.name">
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea class="form-control" id="projectDescription" placeholder="Description" ng-model="project.description"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt save project Modal. -->
+
+    <!-- BEGIN: Prompt edit building Modal. -->
+    <div ng-switch-when="promptBuilding" ng-controller="PromptBuildingController" class="bn-modal">
+        <form ng-submit="submit()">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+                <span class="prompt-title">{{promptTitle}}</span>
+            </div>
+            <div class="modal-body">
+                <p ng-if="message">{{ message }} <br><br></p>
+
+                <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}<br><br></p>
+
+                <div class="form-group">
+                    <label for="floorTitle" class="control-label">Building Name</label>
+                    <input type="text" class="form-control" id="buildingTitle" name="buildingTitle" placeholder="Building Name" ng-model="building.title">
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt edit building Modal. -->
+
+    <!-- BEGIN: Prompt edit floor Modal. -->
+    <div ng-switch-when="promptFloor" ng-controller="PromptFloorController" class="bn-modal">
+        <form ng-submit="submit()" class="form-horizontal">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+                <span class="prompt-title">{{promptTitle}}</span>
+            </div>
+            <div class="modal-body">
+                <p ng-if="message">{{ message }} <br><br></p>
+
+                <div class="form-group">
+                    <label for="floorTitle" class="col-xs-3 control-label">Title</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" id="floorTitle" name="floorTitle" placeholder="Floor Title" ng-model="floor.title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="floorArea" class="col-xs-3 control-label">Area</label>
+                    <div class="col-xs-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="floorArea" name="floorArea" placeholder="Floor Area" ng-model="floor.area">
+                            <span class="input-group-addon">{{measurementUnit}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="floorOffset" class="col-xs-3 control-label">Offset</label>
+                    <div class="col-xs-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="floorOffset" name="floorOffset" placeholder="Floor Offset" ng-model="floor.offset">
+                            <span class="input-group-addon">{{measurementUnit}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="floorVoid" class="col-xs-3 control-label">Void</label>
+                    <div class="col-xs-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="floorVoid" name="floorVoid" placeholder="Floor Void" ng-model="floor.void">
+                            <span class="input-group-addon">{{measurementUnit}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="floorCore" class="col-xs-3 control-label">Core</label>
+                    <div class="col-xs-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="floorCore" name="floorCore" placeholder="Floor Core" ng-model="floor.core">
+                            <span class="input-group-addon">{{measurementUnit}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt edit floor Modal. -->
+
+    <!-- BEGIN: Prompt save user Modal. -->
+    <div ng-switch-when="promptSaveUser" ng-controller="PromptSaveUserController" class="bn-modal double">
+        <form ng-submit="submit()">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+                <span class="prompt-title">{{promptTitle}}</span>
+            </div>
+            <div class="modal-body clearfix">
+                <p ng-if="message">{{ message }} <br></p>
+
+                <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}<br><br></p>
+
+                <div class="half right">
+                    <div class="form-group">
+                        <label>User Type</label>
+                        <div>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" id="type1" ng-model="user.type" value="admin"> Admin
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" id="type2" ng-model="user.type" value="project"> Project
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="user.type=='project'">
+                        <label>Projects Assigned ({{user.projectIds.length}})</label>
+                        <div class="select-list">
+                            <div class="item"
+                                 ng-repeat="project in projects"
+                                 ng-class="{'selected': isProjectChecked(project)}"
+                                 ng-click="updateUsersProjectIds(project)">
+                                <i class="pull-right glyphicon glyphicon-ok"></i> {{project.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="half left">
+                    <div class="form-group">
+                        <label for="name">User Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="Email" ng-model="user.email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="text" class="form-control" id="password" placeholder="Password" ng-model="user.password">
+                    </div>
+                    <div class="form-group">
+                        <label for="Note">Note</label>
+                        <textarea class="form-control" id="note" placeholder="Note" ng-model="user.note"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt save user Modal. -->
+
+
+    <!-- BEGIN: Prompt import Modal. -->
+    <div ng-switch-when="promptImport" ng-controller="PromptImportController" class="bn-modal">
+        <form ng-submit="submit()">
+            <div class="modal-head">
+                <a href="javascript:;" ng-click="cancel()" class="pull-right"><img src="assets/images/close_36.png"></a>
+                <a href="javascript:;" ng-click="submit()" ng-disabled="!(organization.buildings.length || organization.units.length)" class="pull-right"><img src="assets/images/ok_36.png"></a>
+                <img src="assets/images/edit_48.png"/>
+                <span class="prompt-title">{{promptTitle}}</span>
+            </div>
+            <div class="modal-body">
+                <p ng-if="organization.units.length">You have imported {{organization.units.length}} unit(s) and {{organization.buildings.length}} building(s)</p>
+                <p ng-if="!organization.units.length">Select a file to import data from</p>
+
+                <p ng-if="errorMessage"><strong>Sorry:</strong> {{ errorMessage }}<br><br></p>
+
+                <div class="form-group">
+                    <label for="excel_file">Import File</label>
+                    <input type="file" class="form-control" name="excel_file" id="excel_file" accept=".xlsx,.json" ng-model="xlsFile"
+                           onchange="angular.element(this).scope().fileChanged(this.files);" onclick="this.value = null;" valid-file>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END: Prompt import Modal. -->
+
+</div>
+<!-- END: Modals Layout. -->

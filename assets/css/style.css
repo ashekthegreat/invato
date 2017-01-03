@@ -1,0 +1,4 @@
+.message-form textarea {
+  height: 300px!important;
+  overflow: auto;
+}
