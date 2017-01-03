@@ -2,23 +2,41 @@
     angular.module("invato")
         .controller("MessageController", MessageController);
 
-    MessageController.$inject = ["$scope", "messageFactory", "modals"];
+    MessageController.$inject = ["$scope", "messageFactory", "modals", "$firebaseArray"];
 
-    function MessageController($scope, MessageFactory, modals) {
-        $scope.numbers = "12345";
-        $scope.message = "Hello";
+    function MessageController($scope, MessageFactory, modals, $firebaseArray) {
+        /*var invitations = new firebase("https://invato-53a3d.firebaseio.com/invitations");
+        $scope.invitations = $firebaseArray(invitations);*/
 
-        $scope.sendMessage = function(){
+        var invitationsRef = firebase.database().ref().child("invitations");
+        // download the data from a Firebase reference into a (pseudo read-only) array
+        // all server changes are applied in realtime
+        $scope.invitations = $firebaseArray(invitationsRef);
+
+
+        $scope.numbers = "+8801713452621\n+8801713452621";
+        $scope.message = "Test message";
+
+        $scope.sendMessage = function () {
+
             var numbersAsString = $scope.numbers.trim();
             var message = $scope.message.trim();
-            if(!(numbersAsString && message)){
+            if (!(numbersAsString && message)) {
                 return;
-            } else{
-                MessageFactory.sendMessage(numbersAsString, message).then(function (data, status, headers, config) {
-                    console.log("At Controller");
-                    console.log(data);
-                }, function (data, status, headers, config) {
-                    console.log(data);
+            } else {
+                $scope.invitations.$add({
+                    title: "Sample Invitation"
+                }).then(function(ref) {
+                    MessageFactory.sendMessage(numbersAsString, message).then(function (data, status, headers, config) {
+                        console.log("At Controller");
+                        console.log(data);
+                        var fireNumbers = $firebaseArray(ref);
+                        for(var i=0; i<data.data.response.length; i++){
+                            fireNumbers.$add(data.data.response[i])
+                        }
+                    }, function (data, status, headers, config) {
+                        console.log(data);
+                    });
                 });
             }
         };

@@ -16,9 +16,9 @@ $twilioConfig = array(
 
     ),
     "prod" => array(
-        "sid" => "",
-        "token" => "",
-        "from" => ""
+        "sid" => "AC704c50faa4760223b48e3cc3c600a948",
+        "token" => "cb1e2a542ffa4086ef758733ace4a9da",
+        "from" => "+16468878667"
     )
 );
 $activeTwilioMode = "sandbox";
@@ -41,7 +41,7 @@ function sendMessage($config, $numbers, $message)
             )
         );
 
-        array_push($response, $sms->sid);
+        array_push($response, array("sid" => $sms->sid, "status" => $sms->status));
     }
     return $response;
 }
