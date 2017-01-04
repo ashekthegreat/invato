@@ -17,12 +17,7 @@
                 .state('inbox', {
                     url: '/inbox',
                     templateUrl: 'app/components/inbox/views/index.html',
-                    controller: 'InboxController',
-                    resolve: {
-                        inboxMessage:  ['projectsFactory', function(projectsFactory){
-                            return projectsFactory.loadProjectsBasic();
-                        }]
-                    }
+                    controller: 'InboxController'
                 });
 
             // set the default route

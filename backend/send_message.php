@@ -32,6 +32,7 @@ function sendMessage($config, $numbers, $message)
 
     $client = new Client($config["sid"], $config["token"]);
     $countOfNumbers = count($numbers);
+
     for ($i = 0; $i < $countOfNumbers; $i++) {
         $sms = $client->messages->create(
             $numbers[$i],

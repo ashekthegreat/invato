@@ -42,6 +42,7 @@ angular.module("invato").directive(
                 function handleModalOpenEvent( event, modalType ) {
 
                     scope.subview = modalType;
+                    jQuery(".modal").modal().modal('open');
 
                 }
             );
@@ -52,7 +53,7 @@ angular.module("invato").directive(
                 function handleModalCloseEvent( event ) {
 
                     scope.subview = null;
-
+                    jQuery(".modal").modal('close');
                 }
             );
 

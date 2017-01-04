@@ -1,10 +1,10 @@
 (function () {
     angular.module("invato")
-        .factory("messageFactory", messageFactory);
+        .factory("inboxFactory", InboxFactory);
 
-    messageFactory.$inject = ["$http", "$q", "$window"];
+    InboxFactory.$inject = ["$http", "$q", "$window"];
 
-    function messageFactory($http, $q, $window) {
+    function InboxFactory($http, $q, $window) {
         var factory = {};
 
         factory.sendMessage = function (numbers, message) {
@@ -23,16 +23,6 @@
 
         };
 
-        /*factory.deleteUser = function (user) {
-            return $http.post('backend/delete_user.php', user).success(function (data, status, headers, config) {
-                // saving successful
-            }).error(function (data, status, headers, config) {
-                console.log(data);
-            });
-
-        };*/
-
         return factory;
-
     }
 }());
