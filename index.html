@@ -41,13 +41,18 @@
 <body>
 
     <header>
-        <nav class="top-nav">
+        <nav>
             <div class="container">
                 <div class="nav-wrapper">
                     <a href="#" class="brand-logo">INVATO</a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
                         <li ui-sref-active="active"><a ui-sref="inbox">My Inbox</a></li>
                         <li><a class="waves-effect waves-light btn" ui-sref="message">Send Message</a></li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li ui-sref-active="active"><a ui-sref="inbox">My Inbox</a></li>
+                        <li ui-sref-active="active"><a ui-sref="message">Send Message</a></li>
                     </ul>
                 </div>
             </div>

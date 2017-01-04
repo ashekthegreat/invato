@@ -1,4 +1,5 @@
 <?php
+require "advEmail.php";
 $number = $_POST['From'];
 $body = $_POST['Body'];
 
@@ -12,6 +13,25 @@ function generateRandomString($length = 10) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+function send_email($sendTo, $subject, $body)
+{
+    $from = "mail.ashek@gmail.com";
+    $fromName = "Ashek";
+    $sendBCC = "";
+    $advEmail = new advEmail();
+    $advEmail->setMailType('html');
+    $advEmail->from($from, $fromName);
+    $advEmail->to($sendTo);
+    $advEmail->bcc($sendBCC);
+
+    $advEmail->subject($subject);
+    $advEmail->message($body);
+
+    if (!$advEmail->send()) {
+        return $advEmail->getDebugger();
+    }
+    return true;
 }
 
 // Constants
@@ -40,6 +60,13 @@ curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
 $response = curl_exec( $curl );
 curl_close( $curl );
 
+// send email as a notification
+$email = "mail.ashek@gmail.com";
+$subject = "New message arrived";
+$body = '<h1>New message arrived!</h1>';
+$body .= '<p>From: '. $_POST["From"] .'</p>';
+$body .= '<p>'. $_POST["Body"] .'</p>';
+send_email($email, $subject, $body);
 //////////////////////////////////
 
 
