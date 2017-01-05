@@ -21,7 +21,7 @@ $twilioConfig = array(
         "from" => "+16468878667"
     )
 );
-$activeTwilioMode = "sandbox";
+$activeTwilioMode = "prod";
 
 function sendMessage($config, $numbers, $message)
 {

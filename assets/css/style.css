@@ -19,6 +19,9 @@
   font-size: 26px;
   line-height: 50px;
 }
+.inbox .collection-item.avatar i.circle.done {
+  background: #26a69a;
+}
 .reply-modal {
   max-width: 500px;
 }

@@ -5,13 +5,12 @@
     InboxController.$inject = ["$scope", "messageFactory", "modals", "$firebaseArray"];
 
     function InboxController($scope, MessageFactory, modals, $firebaseArray) {
-        /*var invitations = new firebase("https://invato-53a3d.firebaseio.com/invitations");
-        $scope.invitations = $firebaseArray(invitations);*/
 
         var inboxRef = firebase.database().ref().child("inbox");
+        var query = inboxRef.limitToLast(200);
         // download the data from a Firebase reference into a (pseudo read-only) array
         // all server changes are applied in realtime
-        $scope.messages = $firebaseArray(inboxRef);
+        $scope.messages = $firebaseArray(query);
 
         $scope.reply = function (message) {
             console.log(message);

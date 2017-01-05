@@ -1,5 +1,4 @@
 <?php
-require "advEmail.php";
 $number = $_POST['From'];
 $body = $_POST['Body'];
 
@@ -14,32 +13,10 @@ function generateRandomString($length = 10) {
     }
     return $randomString;
 }
-function send_email($sendTo, $subject, $body)
-{
-    $from = "mail.ashek@gmail.com";
-    $fromName = "Ashek";
-    $sendBCC = "";
-    $advEmail = new advEmail();
-    $advEmail->setMailType('html');
-    $advEmail->from($from, $fromName);
-    $advEmail->to($sendTo);
-    $advEmail->bcc($sendBCC);
-
-    $advEmail->subject($subject);
-    $advEmail->message($body);
-
-    if (!$advEmail->send()) {
-        return $advEmail->getDebugger();
-    }
-    return true;
-}
 
 // Constants
 $FIREBASE = "https://invato-53a3d.firebaseio.com/inbox/";
-$NODE_PUT = generateRandomString(10) . ".json";
-
-$data = array();
-$data[generateRandomString(10)] = 43;
+$NODE_PUT = time() + generateRandomString(5) . ".json";
 
 // JSON encoded
 $json = json_encode( $_POST );
@@ -60,15 +37,19 @@ curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
 $response = curl_exec( $curl );
 curl_close( $curl );
 
-// send email as a notification
-$email = "mail.ashek@gmail.com";
-$subject = "New message arrived";
-$body = '<h1>New message arrived!</h1>';
-$body .= '<p>From: '. $_POST["From"] .'</p>';
-$body .= '<p>'. $_POST["Body"] .'</p>';
-send_email($email, $subject, $body);
 //////////////////////////////////
 
+/**
+ * This section actually sends the email.
+ */
+
+/* Your email address */
+$to = "info@rumorphotomedia.com";
+$subject = "Message from {$_REQUEST['From']} at {$_REQUEST['To']}";
+$message = "You have received a message from {$_REQUEST['From']}. Body: {$_REQUEST['Body']}";
+$headers = "From: info@rumorphotomedia.com"; // Who should it come from?
+
+mail($to, $subject, $message, $headers);
 
 header('Content-Type: text/xml');
 ?>

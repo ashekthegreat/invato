@@ -3,14 +3,14 @@
 
     <ul class="collection inbox">
         <li class="collection-item avatar" ng-repeat="message in messages">
-            <i class="material-icons circle">textsms</i>
+            <i class="material-icons circle" ng-class="{'done': message.replyText}">textsms</i>
             <span class="title">{{message.Body}}</span>
             <p>
                 <span style="margin-right: 30px;"><strong>From:</strong> {{message.From}}</span>
                 <span ng-if="message.FromCountry" style="margin-right: 30px;"><strong>Country:</strong> {{message.FromCountry}}</span>
-                <span ng-if="message.FromCity" style="margin-right: 30px;"><strong>Country:</strong> {{message.FromCity}}</span>
-                <span ng-if="message.FromState" style="margin-right: 30px;"><strong>Country:</strong> {{message.FromState}}</span>
-                <span ng-if="message.FromZip" style="margin-right: 30px;"><strong>Country:</strong> {{message.FromZip}}</span>
+                <span ng-if="message.FromCity" style="margin-right: 30px;"><strong>City:</strong> {{message.FromCity}}</span>
+                <span ng-if="message.FromState" style="margin-right: 30px;"><strong>State:</strong> {{message.FromState}}</span>
+                <span ng-if="message.FromZip" style="margin-right: 30px;"><strong>Zip:</strong> {{message.FromZip}}</span>
             </p>
             <p>
                 <strong>Reply:</strong>

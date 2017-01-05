@@ -9,15 +9,15 @@
 
             //create route object
             $stateProvider
-                .state('message', {
-                    url: '/',
-                    templateUrl: 'app/components/message/views/index.html',
-                    controller: 'MessageController'
-                })
                 .state('inbox', {
-                    url: '/inbox',
+                    url: '/',
                     templateUrl: 'app/components/inbox/views/index.html',
                     controller: 'InboxController'
+                })
+                .state('message', {
+                    url: '/message',
+                    templateUrl: 'app/components/message/views/index.html',
+                    controller: 'MessageController'
                 });
 
             // set the default route
