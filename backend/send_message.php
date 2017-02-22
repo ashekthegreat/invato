@@ -14,14 +14,9 @@ $twilioConfig = array(
         "token" => "1ee87e01641571e87f603f0d00a673b0",
         "from" => "+13057126545"
 
-    ),
-    "prod" => array(
-        "sid" => "AC704c50faa4760223b48e3cc3c600a948",
-        "token" => "cb1e2a542ffa4086ef758733ace4a9da",
-        "from" => "+16468878667"
     )
 );
-$activeTwilioMode = "prod";
+$activeTwilioMode = "dev";
 
 function sendMessage($config, $numbers, $message)
 {
