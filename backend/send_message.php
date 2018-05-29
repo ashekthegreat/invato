@@ -13,7 +13,6 @@ $twilioConfig = array(
         "sid" => "ACacfc17815142913921ded0d05f6a3cb1",
         "token" => "1ee87e01641571e87f603f0d00a673b0",
         "from" => "+13057126545"
-
     )
 );
 $activeTwilioMode = "dev";

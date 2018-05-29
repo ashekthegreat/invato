@@ -44,10 +44,10 @@ curl_close( $curl );
  */
 
 /* Your email address */
-$to = "info@rumorphotomedia.com";
+$to = "mail.ashek@gmail.com";
 $subject = "Message from {$_REQUEST['From']} at {$_REQUEST['To']}";
 $message = "You have received a message from {$_REQUEST['From']}. Body: {$_REQUEST['Body']}";
-$headers = "From: info@rumorphotomedia.com"; // Who should it come from?
+$headers = "From: mail.ashek@gmail.com"; // Who should it come from?
 
 mail($to, $subject, $message, $headers);
 
